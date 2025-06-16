@@ -21,10 +21,10 @@ const getUserData = () => {
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<RootLayout />} loader={() => defer({ userPromise: getUserData() })}>
-      <Route path="/retail" element={<ItemList />} />
+      <Route path="/" element={<ItemList />} />
 
       <Route element={<PublicLayout />}>
-        <Route path="/" element={<Home />} />
+        <Route path="/home" element={<Home />} />
       </Route>
 
       <Route element={<AuthLayout />}>

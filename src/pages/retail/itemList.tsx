@@ -2,11 +2,15 @@ import { Link, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react';
 import { useAuthentication } from '#/context/auth/AuthProvider'
 
+import ItemCard from '../../components/retail/itemCard'
+import ItemData from '../../models/retail/itemData'
+
 export default function ItemList() {
 
     const location = useLocation()
     const { user, loggedIn } = useAuthentication()
-    const [itemList, setItemList] = useState({})
+    const [itemDataList, setItemDataList] = useState<ItemData[]>([])
+    const [itemCards, setItemCards] = useState<any>()
 
     const fetchListAsync = async () => {
         try {
@@ -15,21 +19,27 @@ export default function ItemList() {
             if (!response.ok) {
                 throw new Error('Network response was not ok')
             }
-            const data = await response.json()
+            const data: ItemData[] = await response.json()
             console.log(`data: ${JSON.stringify(data)}`)
-            return data
+            setItemDataList(data)
         } catch (error) {
-            return {}
+            console.log("Error fetching data!")
         }
     }
 
     useEffect(() => {
-        setItemList(fetchListAsync())
+        fetchListAsync()
     }, [])
+
+    useEffect(() => {
+        setItemCards(itemDataList.map((itemData, id) => {
+            return (<ItemCard key={id} itemData={itemData} />)
+        }))
+    }, [itemDataList])
 
     return (
         <div>
-            Hola, mundo!
+            {itemCards}
         </div>
     )
 }
