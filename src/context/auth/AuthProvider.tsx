@@ -21,7 +21,7 @@ type AuthContext = {
 
 export const DefaultUserContext: AuthContext = {
   user: null,
-  loggedIn: false,
+  loggedIn: true,
   loggedOut: false,
   login: () => {},
   logout: () => {},
